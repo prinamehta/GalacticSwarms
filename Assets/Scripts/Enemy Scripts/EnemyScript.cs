@@ -9,9 +9,6 @@ public class EnemyScript : MonoBehaviour
     private float fireTimer;
 
     private bool canFire = false;
-    
-    public float minX, maxX, minY, maxY; 
-    public float respawnTime = 3f; 
 
     void Start()
     {
@@ -54,8 +51,7 @@ public class EnemyScript : MonoBehaviour
             }
             Destroy(other.gameObject); 
             DestroyAllEnemyBullets();
-            gameObject.SetActive(false); 
-            Invoke("Respawn", respawnTime); 
+            Destroy(gameObject);
         }
     }
 
@@ -68,14 +64,4 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    void Respawn()
-    {
-        if (!GameObject.FindWithTag("Player"))
-            return;
-
-        float randomX = Random.Range(minX, maxX);
-        float randomY = Random.Range(minY, maxY);
-        transform.position = new Vector3(randomX, randomY, transform.position.z);
-        gameObject.SetActive(true);
-    }
 }
