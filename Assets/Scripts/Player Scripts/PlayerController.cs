@@ -65,4 +65,25 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("EnemyBullet"))
+        {
+            if(!GameObject.FindWithTag("Enemy"))
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Destroy(other.gameObject);
+            Destroy(gameObject);
+            GameOver();
+        }
+    }
+    
+    // TODO: Replace with GameOver Screen
+    void GameOver()
+    {
+        Debug.Log("Game Over");
+    }
 }

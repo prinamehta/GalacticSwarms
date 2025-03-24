@@ -1,16 +1,16 @@
 using UnityEngine;
 
-public class BulletScript : MonoBehaviour
+public class PlayerBullet : MonoBehaviour
 {
     public float speed = 5f;
     public float deactivateTimer = 3f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
         Invoke("DeactivateGameObject", deactivateTimer);
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         Move();
