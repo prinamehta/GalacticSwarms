@@ -18,7 +18,7 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
-        if(canFire)
+        if(canFire && GameObject.FindWithTag("Player"))
         {
             Shoot();
         }
@@ -26,7 +26,10 @@ public class EnemyScript : MonoBehaviour
 
     void EnableFiring()
     {
-        canFire = true;
+        if(GameObject.FindWithTag("Player"))
+        {
+            canFire = true;
+        }
     }
 
     void Shoot()
