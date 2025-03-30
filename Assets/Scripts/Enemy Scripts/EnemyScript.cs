@@ -52,6 +52,7 @@ public class EnemyScript : MonoBehaviour
                 Destroy(other.gameObject);
                 return;
             }
+            ScoreManager.instance.AddPoint();
             Destroy(other.gameObject); 
             DestroyAllEnemyBullets();
             Destroy(gameObject);

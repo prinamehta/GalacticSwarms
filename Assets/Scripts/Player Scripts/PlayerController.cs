@@ -12,6 +12,11 @@ public class PlayerController : MonoBehaviour
     private float currentAttackTimer;
     private bool canAttack;
 
+    private bool isDead;
+    public GameManagerScript gameManager;
+
+    AudioManager audioManager;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         currentAttackTimer = attackTimer;
@@ -59,6 +64,7 @@ public class PlayerController : MonoBehaviour
         {
             if(canAttack)
             {
+                audioManager.PlaySFX(audioManager.playerShooting);
                 canAttack = false;
                 attackTimer = 0f;
                 Instantiate(playerBullet, attackPoint.position, Quaternion.identity);
@@ -68,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("EnemyBullet"))
+        if (other.CompareTag("EnemyBullet") && !isDead)
         {
             if(!GameObject.FindWithTag("Enemy"))
             {
@@ -77,13 +83,23 @@ public class PlayerController : MonoBehaviour
             }
             Destroy(other.gameObject);
             Destroy(gameObject);
-            GameOver();
+            isDead = true;
+            gameObject.SetActive(false);
+            if (audioManager != null && audioManager.musicSource != null)
+            {
+                audioManager.musicSource.Stop();
+            }
+            audioManager.PlaySFX(audioManager.death);
+            gameManager.gameOver();
+
+            Debug.Log("You Are Dead");
+            
         }
     }
-    
-    // TODO: Replace with GameOver Screen
-    void GameOver()
+
+    private void Awake()
     {
-        Debug.Log("Game Over");
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
+
 }
