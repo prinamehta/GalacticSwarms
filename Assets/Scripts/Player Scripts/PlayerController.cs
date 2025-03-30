@@ -11,6 +11,11 @@ public class PlayerController : MonoBehaviour
     public float attackTimer = 0.35f;
     private float currentAttackTimer;
     private bool canAttack;
+    private float fireRate = 1f;
+    private float originalFireRate;
+    private bool isShielded = false;
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor; 
 
     void Start()
     {
@@ -66,6 +71,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void ActivateShield(float duration)
+    {
+        if (isShielded) return; // Prevent multiple shields
+        isShielded = true;
+        Invoke("DeactivateShield", duration);
+        Debug.Log("Shield activated!");
+    }
+
+    void DeactivateShield()
+    {
+        isShielded = false;
+        Debug.Log("Shield deactivated.");
+    }
+
+    public void IncreaseFireRate(float multiplier, float duration)
+    {
+        fireRate /= multiplier;
+        Debug.Log("Fire rate increased! " + fireRate);
+        Invoke("ResetFireRate", duration);
+    }
+
+    void ResetFireRate()
+    {
+        fireRate = originalFireRate;
+        Debug.Log("Fire rate reset.");
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("EnemyBullet"))
@@ -76,6 +108,7 @@ public class PlayerController : MonoBehaviour
                 return;
             }
             Destroy(other.gameObject);
+            Debug.Log("Bullet blocked by shield");
             Destroy(gameObject);
             GameOver();
         }
