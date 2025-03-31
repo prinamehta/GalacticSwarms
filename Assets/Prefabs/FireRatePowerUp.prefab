@@ -79,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 51bf18ae790aec145a75959a7a3bf165, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c56ba7d940ea6c6488482ea3f12c041c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -105,9 +105,6 @@ MonoBehaviour:
   powerUpType: 1
   fallSpeed: 2
   duration: 5
-  spriteRenderer: {fileID: 0}
-  shieldColor: {r: 0, g: 0, b: 1, a: 1}
-  fireRateColor: {r: 0.12528202, g: 0.9528302, b: 0.049439307, a: 1}
 --- !u!61 &2284956508774066001
 BoxCollider2D:
   m_ObjectHideFlags: 0
