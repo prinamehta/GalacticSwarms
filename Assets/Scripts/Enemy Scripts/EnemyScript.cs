@@ -4,6 +4,7 @@ public class EnemyScript : MonoBehaviour
 {
     [SerializeField] private GameObject enemyBullet;
     [SerializeField] private Transform firePoint;
+    [SerializeField] private GameObject explosionEffect;
     public float minFireRate = 3f, maxFireRate = 6f;
     public float startFireDelay = 3f;
     private float fireTimer;
@@ -52,10 +53,20 @@ public class EnemyScript : MonoBehaviour
                 Destroy(other.gameObject);
                 return;
             }
+            TriggerExplosion();
             Destroy(other.gameObject); 
             DestroyAllEnemyBullets();
             Destroy(gameObject);
         }
+    }
+
+    void TriggerExplosion()
+    {
+        if(explosionEffect!= null)
+        {
+            Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        }
+        
     }
 
     void DestroyAllEnemyBullets()
