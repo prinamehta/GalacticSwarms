@@ -76,12 +76,10 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && canAttack)
         {
-            soundEffect_gameOver_score
             if(canAttack)
             {
                 audioManager.PlaySFX(audioManager.playerShooting);
                 canAttack = false;
-                attackTimer = 0f;
                 Instantiate(playerBullet, attackPoint.position, Quaternion.identity);
             }
 
@@ -206,9 +204,6 @@ public class PlayerController : MonoBehaviour
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
-    soundEffect_gameOver_score
-
-}
 
 }
 
