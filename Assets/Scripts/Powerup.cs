@@ -4,12 +4,17 @@ public class PowerUp : MonoBehaviour
 {
     public enum PowerUpType { Shield, FireRate }
     public PowerUpType powerUpType;
-    public float fallSpeed = 2f; 
-
+    public float fallSpeed = 2f;
+    public float duration = 5f; // Duration in seconds
+    
     void Update()
     {
         // Make power-up fall down
         transform.position += Vector3.down * fallSpeed * Time.deltaTime;
+        
+        // Destroy if it goes off-screen
+        if (transform.position.y < -10f)
+            Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -31,11 +36,11 @@ public class PowerUp : MonoBehaviour
     {
         if (powerUpType == PowerUpType.Shield)
         {
-            player.ActivateShield(50f); // Shield lasts for 5 seconds
+            player.ActivateShield(duration);
         }
         else if (powerUpType == PowerUpType.FireRate)
         {
-            player.IncreaseFireRate(2f, 50f); // Double fire rate for 5 seconds
+            player.IncreaseFireRate(2f, duration);
         }
     }
 }

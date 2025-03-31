@@ -5,21 +5,26 @@ public class PlayerController : MonoBehaviour
     public float speed = 5f;
     public float minX, maxX;
     [SerializeField] private GameObject playerBullet;
-
     [SerializeField] private Transform attackPoint;
 
-    public float attackTimer = 0.35f;
+    public float attackCooldown = 0.35f;
     private float currentAttackTimer;
-    private bool canAttack;
-    private float fireRate = 1f;
+    private bool canAttack = true;
     private float originalFireRate;
     private bool isShielded = false;
     private SpriteRenderer spriteRenderer;
-    private Color originalColor; 
+    private Color originalColor;
+    private bool hasFireRateBoost = false;
 
     void Start()
     {
-        currentAttackTimer = attackTimer;
+        currentAttackTimer = 0f;
+        originalFireRate = attackCooldown;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer != null)
+        {
+            originalColor = spriteRenderer.color;
+        }
     }
 
     void Update()
@@ -54,27 +59,39 @@ public class PlayerController : MonoBehaviour
 
     void Attack()
     {
-        attackTimer += Time.deltaTime;
-        if(attackTimer > currentAttackTimer)
+        if (!canAttack)
         {
-            canAttack = true;
+            currentAttackTimer += Time.deltaTime;
+            if (currentAttackTimer >= attackCooldown)
+            {
+                canAttack = true;
+                currentAttackTimer = 0f;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && canAttack)
         {
-            if(canAttack)
-            {
-                canAttack = false;
-                attackTimer = 0f;
-                Instantiate(playerBullet, attackPoint.position, Quaternion.identity);
-            }
+            canAttack = false;
+            currentAttackTimer = 0f;
+            Instantiate(playerBullet, attackPoint.position, Quaternion.identity);
         }
     }
 
     public void ActivateShield(float duration)
     {
-        if (isShielded) return; // Prevent multiple shields
+        if (isShielded) 
+        {
+            // Extend duration if already shielded
+            CancelInvoke("DeactivateShield");
+            Invoke("DeactivateShield", duration);
+            return;
+        }
+        
         isShielded = true;
+        
+        // Visual feedback - turn blue for shield
+        UpdatePlayerVisuals();
+        
         Invoke("DeactivateShield", duration);
         Debug.Log("Shield activated!");
     }
@@ -82,33 +99,79 @@ public class PlayerController : MonoBehaviour
     void DeactivateShield()
     {
         isShielded = false;
+        
+        // Update visual based on other active power-ups
+        UpdatePlayerVisuals();
+        
         Debug.Log("Shield deactivated.");
     }
 
     public void IncreaseFireRate(float multiplier, float duration)
     {
-        fireRate /= multiplier;
-        Debug.Log("Fire rate increased! " + fireRate);
+        // Cancel any pending reset
+        CancelInvoke("ResetFireRate");
+        
+        // Store original value if not already modified
+        if (attackCooldown == originalFireRate)
+        {
+            attackCooldown /= multiplier;
+        }
+        
+        hasFireRateBoost = true;
+        
+        // Update visual based on power-up state
+        UpdatePlayerVisuals();
+        
+        Debug.Log("Fire rate increased! New cooldown: " + attackCooldown);
         Invoke("ResetFireRate", duration);
     }
 
     void ResetFireRate()
     {
-        fireRate = originalFireRate;
+        attackCooldown = originalFireRate;
+        hasFireRateBoost = false;
+        
+        // Update visual based on other active power-ups
+        UpdatePlayerVisuals();
+        
         Debug.Log("Fire rate reset.");
+    }
+
+    // Update player color based on active power-ups
+    void UpdatePlayerVisuals()
+    {
+        if (spriteRenderer == null) return;
+        
+        if (isShielded)
+        {
+            // Blue for shield (priority over fire rate)
+            spriteRenderer.color = Color.cyan;
+        }
+        else if (hasFireRateBoost)
+        {
+            // Green for fire rate
+            spriteRenderer.color = Color.green;
+        }
+        else
+        {
+            // Reset to original color if no power-ups active
+            spriteRenderer.color = originalColor;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("EnemyBullet"))
         {
-            if(!GameObject.FindWithTag("Enemy"))
+            if (isShielded)
             {
-                Destroy(gameObject);
+                // Shield blocks the bullet
+                Destroy(other.gameObject);
+                Debug.Log("Bullet blocked by shield");
                 return;
             }
+            
             Destroy(other.gameObject);
-            Debug.Log("Bullet blocked by shield");
             Destroy(gameObject);
             GameOver();
         }
