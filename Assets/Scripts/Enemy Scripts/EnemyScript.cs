@@ -69,6 +69,7 @@ public class EnemyScript : MonoBehaviour
         {
             Instantiate(explosionEffect, transform.position, Quaternion.identity);
         }
+    }
         
     void SpawnPowerUp()
     {
