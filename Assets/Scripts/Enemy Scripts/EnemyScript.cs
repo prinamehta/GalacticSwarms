@@ -1,4 +1,5 @@
 using UnityEngine;
+
 public class EnemyScript : MonoBehaviour
 {
     [SerializeField] private GameObject enemyBullet;
