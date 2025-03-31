@@ -43,4 +43,10 @@ public class PowerUp : MonoBehaviour
             player.IncreaseFireRate(2f, duration);
         }
     }
+
+    
 }
+
+
+
+
