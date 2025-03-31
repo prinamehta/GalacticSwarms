@@ -493,11 +493,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 6024114046433191443, guid: 73b5a532c28d66f4a81f5c456853bf94, type: 3}
+  bossPrefab: {fileID: 7603136066156998297, guid: 0f707fe53c6229248aed2caca74f79be, type: 3}
   spawnInterval: 5
-  minX: -8
-  maxX: 8
-  minY: 1
-  maxY: 5
   stopSpawning: 0
 --- !u!4 &377777176
 Transform:
