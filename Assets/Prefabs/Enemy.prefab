@@ -209,6 +209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyBullet: {fileID: 5609729708706567875, guid: caffa21e1f804df469cc36b44f88d1e2, type: 3}
   firePoint: {fileID: 9005804284904152916}
+  explosionEffect: {fileID: 1662525632158388229, guid: e7a5e538559ba4b76805000aa884785f, type: 3}
   powerUps:
   - {fileID: 2239082156037134182, guid: a07333f673175ed4cbb37d84eb80cef3, type: 3}
   - {fileID: 7257300357485007074, guid: 9e138bbf30543e54d92ef62fa1c0b879, type: 3}

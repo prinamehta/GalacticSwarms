@@ -4,6 +4,7 @@ public class EnemyScript : MonoBehaviour
 {
     [SerializeField] private GameObject enemyBullet;
     [SerializeField] private Transform firePoint;
+    [SerializeField] private GameObject explosionEffect;
     [SerializeField] private GameObject[] powerUps;
     [SerializeField] private float powerUpDropChance = 0.3f;
     public float minFireRate = 3f, maxFireRate = 6f;
@@ -62,6 +63,14 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
+    void TriggerExplosion()
+    {
+        if(explosionEffect!= null)
+        {
+            Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        }
+    }
+        
     void SpawnPowerUp()
     {
         if(powerUps.Length > 0 && Random.value < powerUpDropChance)
