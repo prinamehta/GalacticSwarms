@@ -5,6 +5,8 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] private GameObject enemyBullet;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject explosionEffect;
+    [SerializeField] private GameObject[] powerUps;
+    [SerializeField] private float powerUpDropChance = 0.3f;
     public float minFireRate = 3f, maxFireRate = 6f;
     public float startFireDelay = 3f;
     private float fireTimer;
@@ -53,9 +55,10 @@ public class EnemyScript : MonoBehaviour
                 Destroy(other.gameObject);
                 return;
             }
-            TriggerExplosion();
+            ScoreManager.instance.AddPoint();
             Destroy(other.gameObject); 
             DestroyAllEnemyBullets();
+            SpawnPowerUp();
             Destroy(gameObject);
         }
     }
@@ -67,6 +70,13 @@ public class EnemyScript : MonoBehaviour
             Instantiate(explosionEffect, transform.position, Quaternion.identity);
         }
         
+    void SpawnPowerUp()
+    {
+        if(powerUps.Length > 0 && Random.value < powerUpDropChance)
+        {
+            int randomIndex = Random.Range(0, powerUps.Length);
+            Instantiate(powerUps[randomIndex], transform.position, Quaternion.identity);
+        }
     }
 
     void DestroyAllEnemyBullets()
