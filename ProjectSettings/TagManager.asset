@@ -7,7 +7,9 @@ TagManager:
   - PlayerBullet
   - EnemyBullet
   - Enemy
+  - Audio
   - Boss
+
   layers:
   - Default
   - TransparentFX
