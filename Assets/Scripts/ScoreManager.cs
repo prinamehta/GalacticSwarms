@@ -13,24 +13,53 @@ public class ScoreManager : MonoBehaviour
 
     public void Awake()
     {
-        instance = this;
+        // Proper singleton pattern implementation
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
+        // Check if text references are assigned
+        if (scoreText == null || highscoreText == null)
+        {
+            Debug.LogError("Score or highscore Text references missing in ScoreManager!");
+            return;
+        }
+
         highscore = PlayerPrefs.GetInt("highscore", 0);
-        scoreText.text = score.ToString() + " POINTS";
-        Debug.Log(score);
+        UpdateScoreDisplay();
         highscoreText.text = "HIGHSCORE: " + highscore.ToString();
+        
+        Debug.Log("ScoreManager initialized with score: " + score);
     }
 
     public void AddPoint()
     {
         score += 10;
-        scoreText.text = score.ToString() + " POINTS";
-        if(highscore < score)
+        UpdateScoreDisplay();
+        
+        if (highscore < score)
         {
+            highscore = score;
             PlayerPrefs.SetInt("highscore", score);
+            highscoreText.text = "HIGHSCORE: " + highscore.ToString();
+        }
+        
+        Debug.Log("Score increased to: " + score);
+    }
+    
+    private void UpdateScoreDisplay()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = score.ToString() + " POINTS";
         }
     }
 }
