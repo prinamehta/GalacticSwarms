@@ -120,7 +120,10 @@ NavMeshSettings:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
 --- !u!1 &12087434
+<<<<<<< Updated upstream
 --- !u!1 &12087434
+=======
+>>>>>>> Stashed changes
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,9 +134,12 @@ GameObject:
   - component: {fileID: 12087435}
   - component: {fileID: 12087437}
   - component: {fileID: 12087436}
+<<<<<<< Updated upstream
   - component: {fileID: 12087435}
   - component: {fileID: 12087437}
   - component: {fileID: 12087436}
+=======
+>>>>>>> Stashed changes
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -142,7 +148,10 @@ GameObject:
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!224 &12087435
+<<<<<<< Updated upstream
 --- !u!224 &12087435
+=======
+>>>>>>> Stashed changes
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1279,8 +1288,12 @@ RectTransform:
 
   - {fileID: 703548518}
   - {fileID: 2089184790}
+<<<<<<< Updated upstream
   - {fileID: 511960631}
 
+=======
+  - {fileID: 1983231717}
+>>>>>>> Stashed changes
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1438,7 +1451,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0.2
   bgRenderer: {fileID: 852313800}
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 --- !u!1 &894090471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1572,7 +1588,10 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 894090471}
   m_CullTransparentMesh: 1
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 --- !u!1 &1095793373
 GameObject:
   m_ObjectHideFlags: 0
