@@ -1,29 +1,34 @@
 using UnityEngine;
 
-public class EnemyBullet : MonoBehaviour
+public class EnemyBulletScript : MonoBehaviour
 {
     public float speed = 5f;
-    public float deactivateTimer = 3f;
-
-    void Start()
-    {
-        Invoke("DeactivateGameObject", deactivateTimer);
-    }
-
+    
     void Update()
     {
-        Move();
+        // Move bullet downward (assuming player is at bottom)
+        transform.Translate(Vector2.down * speed * Time.deltaTime);
+        
+        // Destroy bullet if it goes off screen
+        if (transform.position.y < -10f)
+        {
+            Destroy(gameObject);
+        }
     }
-
-    void Move()
+    
+    void OnTriggerEnter2D(Collider2D other)
     {
-        Vector3 temp = transform.position;
-        temp.y -= speed * Time.deltaTime; 
-        transform.position = temp;
-    }
-
-    void DeactivateGameObject()
-    {
-        gameObject.SetActive(false);
+        if (other.CompareTag("Player"))
+        {
+            // Find the PlayerScript component and call TakeDamage()
+            PlayerScript player = other.GetComponent<PlayerScript>();
+            if (player != null)
+            {
+                player.TakeDamage(); // Deduct one life from the player
+            }
+            
+            // Destroy the bullet on hit
+            Destroy(gameObject);
+        }
     }
 }

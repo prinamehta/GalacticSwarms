@@ -185,6 +185,17 @@ public class PlayerController : MonoBehaviour
             }
             
             Destroy(other.gameObject);
+
+            // Decrease player lives
+            playerLives--;
+
+            if (playerLives > 0)
+            {
+                Debug.Log("Player hit! Lives remaining: " + playerLives);
+                return; // Don't trigger Game Over yet
+            }
+
+            // Trigger Game Over if lives run out
             Destroy(gameObject);
             isDead = true;
             gameObject.SetActive(false);
