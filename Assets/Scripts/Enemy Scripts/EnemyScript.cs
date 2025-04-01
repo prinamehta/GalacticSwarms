@@ -52,20 +52,24 @@ public class EnemyScript : MonoBehaviour
 
   
    void OnTriggerEnter2D(Collider2D other)
-   {
-       if (other.CompareTag("PlayerBullet"))
-       {
-           if(!GameObject.FindWithTag("Player"))
-           {
-               Destroy(other.gameObject);
-               return;
-           }
-           TriggerExplosion();
-           Destroy(other.gameObject);
-           DestroyAllEnemyBullets();
-           Destroy(gameObject);
-       }
-   }
+{
+    if (other.CompareTag("PlayerBullet"))
+    {
+        if(!GameObject.FindWithTag("Player"))
+        {
+            Destroy(other.gameObject);
+            return;
+        }
+        
+        // Add score here
+        ScoreManager.instance.AddPoint();
+        
+        TriggerExplosion();
+        Destroy(other.gameObject);
+        DestroyAllEnemyBullets();
+        Destroy(gameObject);
+    }
+}
 
 
    void TriggerExplosion()
