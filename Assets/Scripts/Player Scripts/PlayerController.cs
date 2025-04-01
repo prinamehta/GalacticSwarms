@@ -6,6 +6,9 @@ public class PlayerController : MonoBehaviour
     public float minX, maxX;
     [SerializeField] private GameObject playerBullet;
     [SerializeField] private Transform attackPoint;
+    
+    // Reference to the PlayerScript that contains playerLives
+    [SerializeField] private PlayerScript playerScript;
 
     public float attackCooldown = 0.35f;
     private float currentAttackTimer;
@@ -20,7 +23,7 @@ public class PlayerController : MonoBehaviour
     public GameManagerScript gameManager;
 
     AudioManager audioManager;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
         currentAttackTimer = 0f;
@@ -29,6 +32,23 @@ public class PlayerController : MonoBehaviour
         if (spriteRenderer != null)
         {
             originalColor = spriteRenderer.color;
+        }
+        
+        // Find PlayerScript if not assigned
+        if (playerScript == null)
+        {
+            playerScript = GetComponent<PlayerScript>();
+            
+            // If it's not on the same GameObject, try to find it in the scene
+            if (playerScript == null)
+            {
+                playerScript = FindObjectOfType<PlayerScript>();
+                
+                if (playerScript == null)
+                {
+                    Debug.LogError("PlayerScript not found! Please assign it in the inspector.");
+                }
+            }
         }
     }
 
@@ -186,13 +206,20 @@ public class PlayerController : MonoBehaviour
             
             Destroy(other.gameObject);
 
-            // Decrease player lives
-            playerLives--;
-
-            if (playerLives > 0)
+            // Decrease player lives - using playerScript reference
+            if (playerScript != null)
             {
-                Debug.Log("Player hit! Lives remaining: " + playerLives);
-                return; // Don't trigger Game Over yet
+                playerScript.playerLives--;
+
+                if (playerScript.playerLives > 0)
+                {
+                    Debug.Log("Player hit! Lives remaining: " + playerScript.playerLives);
+                    return; // Don't trigger Game Over yet
+                }
+            }
+            else
+            {
+                Debug.LogError("PlayerScript reference is missing!");
             }
 
             // Trigger Game Over if lives run out
@@ -215,6 +242,4 @@ public class PlayerController : MonoBehaviour
     {
         audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
-
 }
-

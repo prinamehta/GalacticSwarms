@@ -7,7 +7,7 @@ public class GameManagerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
 
-{
+    {
     Cursor.visible = false;
     Cursor.lockState = CursorLockMode.Locked;
     
@@ -15,9 +15,8 @@ public class GameManagerScript : MonoBehaviour
     {
         gameOverUI.SetActive(false); 
     }
-}
 
-
+    else
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -37,6 +36,7 @@ public class GameManagerScript : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
+    }
     }
 
     public void gameOver()
